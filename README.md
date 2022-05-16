@@ -1,77 +1,107 @@
-## Résumé
+# openclassroom - projet 13 - Site web d'Orange County Lettings
 
-Site web d'Orange County Lettings
+| OC-Lettings |
+|:----------:|
 
-## Développement local
+_Owner: [Amélie](https://github.com/ameliebnpp)_
 
-### Prérequis
+## Developpement guide
 
-- Compte GitHub avec accès en lecture à ce repository
-- Git CLI
-- SQLite3 CLI
-- Interpréteur Python, version 3.6 ou supérieure
+### General informations
 
-Dans le reste de la documentation sur le développement local, il est supposé que la commande `python` de votre OS shell exécute l'interpréteur Python ci-dessus (à moins qu'un environnement virtuel ne soit activé).
+This project is developped with :
+- Python(>=3.6, programming language),
+- Django(web framework),
+- Django REST(REST API framework),
+- SQLite3(database)
+- CircleCI for continuous integration
+- Heroku for deployment
+- Sentry for mo,itoring
 
-### macOS / Linux
+### Installation
 
-#### Cloner le repository
+1. Check python/pip version/interpreteur
 
-- `cd /path/to/put/project/in`
-- `git clone https://github.com/OpenClassrooms-Student-Center/Python-OC-Lettings-FR.git`
+```bash
+which python
+python --version
+which pip
+```
 
-#### Créer l'environnement virtuel
+2. Clone the project:
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- `python -m venv venv`
-- `apt-get install python3-venv` (Si l'étape précédente comporte des erreurs avec un paquet non trouvé sur Ubuntu)
-- Activer l'environnement `source venv/bin/activate`
-- Confirmer que la commande `python` exécute l'interpréteur Python dans l'environnement virtuel
-`which python`
-- Confirmer que la version de l'interpréteur Python est la version 3.6 ou supérieure `python --version`
-- Confirmer que la commande `pip` exécute l'exécutable pip dans l'environnement virtuel, `which pip`
-- Pour désactiver l'environnement, `deactivate`
+```bash
+git clone --recursive git@github.com:amelieBNPP/OC-Lettings.git
+```
 
-#### Exécuter le site
+3. Active the virtual environement:
+```bash
+python3 -m venv venv
+source env/bin/activate
+```
+*The virtual environement is created only one time, however, it is activate each time we start to develop.*
 
-- `cd /path/to/Python-OC-Lettings-FR`
+### Dependencies
+
+Install dependencies :
+
+```bash
+pip install -r requirements.txt
+```
+
+*Install dependancies each time we develop on this project.*
+
+### Run server
+
+Server can be run using the following commands:
+- `cd /path/to/oc-lettings`
 - `source venv/bin/activate`
 - `pip install --requirement requirements.txt`
 - `python manage.py runserver`
-- Aller sur `http://localhost:8000` dans un navigateur.
-- Confirmer que le site fonctionne et qu'il est possible de naviguer (vous devriez voir plusieurs profils et locations).
 
-#### Linting
+The API can be tested in local at the following adresse : http://127.0.0.1:8000/
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- `source venv/bin/activate`
-- `flake8`
+### Admin
 
-#### Tests unitaires
+Create a superUser in `manage.py` directory : 
+```bash
+python manage.py createsuperuser
+```
 
-- `cd /path/to/Python-OC-Lettings-FR`
+### FRONTEND
+
+Django Administration will be used as a simple frontend : 
+- launch server
+- run : `http://localhost:8000/admin`
+- connect with your supersUser identifiers (user:`admin`, password:`Abc1234!`)
+
+#### DataBase
+
+- `cd /path/to/oc-lettings`
+- Open session `sqlite3`
+- Connect to database `.open oc-lettings-site.sqlite3`
+- Show tables in database `.tables`
+- Show columns in profile table, `pragma table_info(oc_lettings_site_profile);`
+- Lauch request on profile table, `select user_id, favorite_city from
+  oc_lettings_site_profile_profile where favorite_city like 'B%';`
+- `.quit` for exit sql
+### Test
+
+Launch tests
+To ensure new features do not add any regression in the code, run the tests with the following commands :
+
+- `cd /path/to/oc-lettings`
 - `source venv/bin/activate`
 - `pytest`
 
-#### Base de données
+#### Linting
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- Ouvrir une session shell `sqlite3`
-- Se connecter à la base de données `.open oc-lettings-site.sqlite3`
-- Afficher les tables dans la base de données `.tables`
-- Afficher les colonnes dans le tableau des profils, `pragma table_info(Python-OC-Lettings-FR_profile);`
-- Lancer une requête sur la table des profils, `select user_id, favorite_city from
-  Python-OC-Lettings-FR_profile where favorite_city like 'B%';`
-- `.quit` pour quitter
+- `cd /path/to/oc-lettings`
+- `source venv/bin/activate`
+- `flake8`
 
-#### Panel d'administration
+### Sources
 
-- Aller sur `http://localhost:8000/admin`
-- Connectez-vous avec l'utilisateur `admin`, mot de passe `Abc1234!`
-
-### Windows
-
-Utilisation de PowerShell, comme ci-dessus sauf :
-
-- Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
-- Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+- Starting with Heroku : https://devcenter.heroku.com/articles/getting-started-with-python
+- Starting with CicleCI : https://circleci.com/docs/
+- Starting with Sentry : https://sentry.io/for/python/
