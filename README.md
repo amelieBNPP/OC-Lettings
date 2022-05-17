@@ -63,13 +63,6 @@ The API can be tested in local at the following adresse : http://127.0.0.1:8000/
 
 ### Admin
 
-Create a superUser in `manage.py` directory : 
-```bash
-python manage.py createsuperuser
-```
-
-### FRONTEND
-
 Django Administration will be used as a simple frontend : 
 - launch server
 - run : `http://localhost:8000/admin`
@@ -83,7 +76,7 @@ Django Administration will be used as a simple frontend :
 - Show tables in database `.tables`
 - Show columns in profile table, `pragma table_info(oc_lettings_site_profile);`
 - Lauch request on profile table, `select user_id, favorite_city from
-  oc_lettings_site_profile_profile where favorite_city like 'B%';`
+  oc_lettings_site_profile where favorite_city like 'B%';`
 - `.quit` for exit sql
 ### Test
 
