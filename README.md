@@ -95,6 +95,7 @@ To ensure new features do not add any regression in the code, run the tests with
 
 ### Sources
 
+- tests : https://openclassrooms.com/fr/courses/7155841-testez-votre-projet-python/7414181-implementez-vos-tests-pour-framework-django-avec-pytest-django
 - Starting with Heroku : https://devcenter.heroku.com/articles/getting-started-with-python
 - Starting with CicleCI : https://circleci.com/docs/
 - Starting with Sentry : https://sentry.io/for/python/
