@@ -93,9 +93,38 @@ To ensure new features do not add any regression in the code, run the tests with
 - `source venv/bin/activate`
 - `flake8`
 
+#### Docker
+
+##### Run app locally
+
+To run the app locally: 
+- `docker build -t oc_lettings .` create image
+- `docker run -it -d -p 127.0.0.1:8000:8000 oc_lettings` connect to our container and launch website
+(`it` to be interactif, `-d` to be detach(backend), `-p`to define port to use)
+
+The website is now available at the following adress : http://127.0.0.1:8000/
+##### Use the main Docker command line
+
+**local**
+- `docker images` show image available
+- `docker ps` show container available
+- `docker stop **CONTAINER ID**` stop container
+- `docker exec -ti **CONTAINER ID** sh` to "go into" the docker container
+- `docker rmi **IMAGE ID**` remove image
+- `docker system prune` clean container, web, images...
+
+**docker hub**
+- `docker login -u amefaure` connect to docker
+- `docker build -t amefaure/oc_lettings:1.0.0 .` build format to share image
+- `docker push amefaure/oc_lettings:1.0.0` share image
+- `docker pull amefaure/oc_lettings:1.0.0` download image
+
+
 ### Sources
 
 - tests : https://openclassrooms.com/fr/courses/7155841-testez-votre-projet-python/7414181-implementez-vos-tests-pour-framework-django-avec-pytest-django
+- docker : https://www.youtube.com/watch?v=dU5112nqViY
+https://www.youtube.com/watch?v=ZgRkGfoy2nE
 - Starting with Heroku : https://devcenter.heroku.com/articles/getting-started-with-python
 - Starting with CicleCI : https://circleci.com/docs/
 - Starting with Sentry : https://sentry.io/for/python/
