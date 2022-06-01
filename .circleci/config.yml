@@ -72,11 +72,11 @@ jobs:
           name: Build container
           command: |
             echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USER" --password-stdin
-            docker build -t $DOCKERHUB_USER/oc_lettings:latest .
+            docker build -t $DOCKERHUB_USER/oc_lettings:${CIRCLE_SHA1} .
       - run:
           name: Push container to Dockerhub
           command: |
-            docker push $DOCKERHUB_USER/oc_lettings:latest
+            docker push $DOCKERHUB_USER/oc_lettings:${CIRCLE_SHA1}
 
   deploy: # this can be any name you choose
       executor: heroku/default # use the default executor defined within the orb
@@ -91,7 +91,7 @@ jobs:
             name: Pull container from Dockerhub
             command: |
               echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USER" --password-stdin
-              docker pull $DOCKERHUB_USER/oc_lettings:latest
+              docker pull $DOCKERHUB_USER/oc_lettings:${CIRCLE_SHA1}
         - run:
             name: Install Heroku CLI
             command: |
@@ -100,9 +100,9 @@ jobs:
             name: Push container to Heroku
             command: |
               heroku container:login
-              heroku git:remote -a $HEROKU_APP_NAME
-              heroku container:push web
-              heroku container:release web
+              docker tag $DOCKERHUB_USER/oc_lettings:${CIRCLE_SHA1} registry.heroku.com/$HEROKU_APP_NAME/web
+              docker push registry.heroku.com/$HEROKU_APP_NAME/web
+              heroku container:release web -a $HEROKU_APP_NAME
 
 # Orchestrate our job run sequence
 workflows:

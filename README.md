@@ -132,7 +132,7 @@ we assume that you have:
 - `heroku apps:create oc-lettings-openclassrooms` create an empty heroku app
 - `heroku git:remote -a oc-lettings-openclassrooms` init git and set the heroku git remote to that repos
 - `heroku container:push web` now we want to build the image and push it to the container registery
-- `heroku container:release web` and create a new release of the app
+- `heroku container:release web -a oc-lettings-openclassrooms` and create a new release of the app
 - `heroku open`to launch the api
 
 The website is now available at the following adress : https://oc-lettings-openclassrooms.herokuapp.com/
@@ -146,6 +146,8 @@ The website is now available at the following adress : https://oc-lettings-openc
 - `heroku logs --tail` to anayse logs
 - `heroku apps` to list all projects
 - `heroku apps:destroy` to delete api
+- `docker tag amefaure/oc_lettings:latest registry.heroku.com/oc-lettings-openclassrooms/web` tag image to push to heroku
+- `docker push registry.heroku.com/oc-lettings-openclassrooms/web` push image to heroku
 
 ### CicrcleCI
 
