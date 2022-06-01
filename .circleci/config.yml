@@ -104,7 +104,6 @@ jobs:
             name: Push container to Heroku
             command: |
               heroku container:login
-              heroku apps:create $HEROKU_APP_NAME
               heroku git:remote -a $HEROKU_APP_NAME
               heroku container:push web
               heroku container:release web
