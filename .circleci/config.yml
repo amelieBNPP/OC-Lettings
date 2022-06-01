@@ -123,6 +123,9 @@ workflows:
           requires:
             - test
             - flake8
+          filters:
+            branches:
+              only: master # only deploy when on master branch
       - deploy:
           requires:
             - package # only deploy if the package job has completed
