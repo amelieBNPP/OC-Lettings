@@ -1,8 +1,11 @@
 version: 2.1
 
 orbs:
-  python: circleci/python@2.0.3
   heroku: circleci/heroku@1.2.6
+
+docker_hub_authentification: &docker_hub_authentification
+  username: $DOCKERHUB_USER
+  password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
 
 
 # Define the jobs we want to run for this project
@@ -10,57 +13,57 @@ jobs:
   build:
     docker:
       - image: cimg/python:3.8
-        auth:
-          username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        auth: *docker_hub_authentification
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - venv-{{ checksum "requirements.txt"}}
       - run:
-          name: Run build
+          name: Build, upgrade pip and install Python requirements
           command: |
             python -m venv venv
             . venv/bin/activate
+            pip install --upgrade pip
             pip install -r requirements.txt
-
+      - save_cache:
+          key: venv-{{ checksum "requirements.txt"}}
+          paths:
+            - "venv"
   test:
     docker:
       - image: cimg/python:3.8
-        auth:
-          username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        auth: *docker_hub_authentification
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - venv-{{ checksum "requirements.txt"}}
       - run:
           name: Run tests
           command: |
-            python -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
             pytest
-            echo "this is the test job"
 
-  flake8:  
+  flake8:
     docker:
       - image: cimg/python:3.8
-        auth:
-          username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        auth: *docker_hub_authentification
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - venv-{{ checksum "requirements.txt"}}
       - run:
           name: Run Flake8
           command: |
-            python -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
             flake8 
 
   package:
     docker:
       - image: cimg/python:3.8
-        auth:
-          username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        auth: *docker_hub_authentification
     steps:
       - checkout
       - setup_remote_docker:
@@ -68,9 +71,6 @@ jobs:
       - run:
           name: Build container
           command: |
-            python -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
             echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USER" --password-stdin
             docker build -t $DOCKERHUB_USER/oc_lettings:latest .
       - run:
@@ -82,9 +82,7 @@ jobs:
       executor: heroku/default # use the default executor defined within the orb
       docker:
       - image: cimg/python:3.8
-        auth:
-          username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        auth: *docker_hub_authentification
       steps:
         - checkout
         - setup_remote_docker:
@@ -92,12 +90,10 @@ jobs:
         - run:
             name: Pull container from Dockerhub
             command: |
-              echo docker ps
-              echo docker images
               echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USER" --password-stdin
               docker pull $DOCKERHUB_USER/oc_lettings:latest
         - run:
-            name: install Heroku CLI
+            name: Install Heroku CLI
             command: |
               curl https://cli-assets.heroku.com/install.sh | sh
         - run:
