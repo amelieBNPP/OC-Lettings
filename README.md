@@ -54,10 +54,12 @@ pip install -r requirements.txt
 ### Run server
 
 Server can be run using the following commands:
-- `cd /path/to/oc-lettings`
-- `source venv/bin/activate`
-- `pip install --requirement requirements.txt`
-- `python manage.py runserver`
+```bash
+cd /path/to/oc-lettings
+source venv/bin/activate
+pip install --requirement requirements.txt
+python manage.py runserver
+```
 
 The API can be tested in local at the following adresse : http://127.0.0.1:8000/
 
@@ -82,20 +84,25 @@ Django Administration will be used as a simple frontend :
 
 Launch tests
 To ensure new features do not add any regression in the code, run the tests with the following commands :
-
-- `cd /path/to/oc-lettings`
-- `source venv/bin/activate`
-- `pytest`
-
+```bash
+cd /path/to/oc-lettings
+source venv/bin/activate
+pytest
+```
 ### Linting
 
-- `cd /path/to/oc-lettings`
-- `source venv/bin/activate`
-- `flake8`
-
+```bash
+cd /path/to/oc-lettings
+source venv/bin/activate
+flake8
+```
 ### Docker
 
 ##### Run app locally
+
+we assume that you have:
+
+- a free [DockerHub account](https://hub.docker.com/)
 
 To run the app locally: 
 - `docker build -t oc_lettings .` create image
@@ -103,21 +110,22 @@ To run the app locally:
 (`it` to be interactif, `-d` to be detach(backend), `-p`to define port to use)
 
 The website is now available at the following adress : http://127.0.0.1:8000/
+
+The website must look like:
+![preview ](OCL_website.png)
 ##### Use the main Docker command line
 
-**local**
-- `docker images` show image available
-- `docker ps` show container available
-- `docker stop **CONTAINER ID**` stop container (if deamon error try the line below then `kill 1`)
-- `docker exec -ti **CONTAINER ID** sh` to "go into" the docker container
-- `docker rmi **IMAGE ID**` remove image
-- `docker system prune` clean container, web, images...
 
-**docker hub**
-- `docker login -u amefaure` connect to docker
-- `docker build -t amefaure/oc_lettings:latest .` build format to share image
-- `docker push amefaure/oc_lettings:latest` share image
-- `docker pull amefaure/oc_lettings:latest` download image
+* `docker images` show image available
+* `docker ps` show container available
+* `docker stop **CONTAINER ID**` stop container (if deamon error try the line below then `kill 1`)
+* `docker exec -ti **CONTAINER ID** sh` to "go into" the docker container
+* `docker rmi **IMAGE ID**` remove image
+* `docker system prune` clean container, web, images...
+* `docker login -u amefaure` connect to docker
+* `docker build -t amefaure/oc_lettings:latest .` build format to share image
+* `docker push amefaure/oc_lettings:latest` share image
+* `docker pull amefaure/oc_lettings:latest` download image
 
 ### Deployment
 
@@ -138,25 +146,54 @@ we assume that you have:
 The website is now available at the following adress : https://oc-lettings-openclassrooms.herokuapp.com/
 
 **Command lines**
-- `heroku config` to see saved configurations
-- `heroku addons:add heroku-postgresql:hobby-dev`to attach database to postgresql database
-- `heroku config:set SECRET_KEY=<your-secret-key>` 
-- `heroku config:set ENV=PRODUCTION`
-- `git push --force heroku master` to deploy when code is push to github
-- `heroku logs --tail` to anayse logs
-- `heroku apps` to list all projects
-- `heroku apps:destroy` to delete api
-- `docker tag amefaure/oc_lettings:latest registry.heroku.com/oc-lettings-openclassrooms/web` tag image to push to heroku
-- `docker push registry.heroku.com/oc-lettings-openclassrooms/web` push image to heroku
+* `heroku config` to see saved configurations
+* `heroku addons:add heroku-postgresql:hobby-dev`to attach database to postgresql database
+* `heroku config:set SECRET_KEY=<your-secret-key>` 
+* `heroku config:set ENV=PRODUCTION`
+* `git push --force heroku master` to deploy when code is push to github
+* `heroku logs --tail` to anayse logs
+* `heroku apps` to list all projects
+* `heroku apps:destroy` to delete api
+* `docker tag amefaure/oc_lettings:latest registry.heroku.com/oc-lettings-openclassrooms/web` tag image to push to heroku
+* `docker push registry.heroku.com/oc-lettings-openclassrooms/web` push image to heroku
 
 ### CicrcleCI
 
-Define environement variables
-- `DOCKERHUB_PASSWORD`
-- `DOCKERHUB_USER`
-- `HEROKU_API_KEY`
-- `HEROKU_APP_NAME`
+1. Define environement variables on CircleCI
 
+* `DOCKERHUB_USER`: username of dockerhub account
+* `DOCKERHUB_PASSWORD`: password of dockerhub account
+* `HEROKU_APP_NAME`: name given to the api
+* `HEROKU_API_KEY`: api_key to retreive on Heroku website
+
+2. Workflow
+
+The workflow is defined as following:
+![preview](Workflow.png)
+
+- build:
+  - create virtual environement
+  - active it
+  - save it thank to cache
+- tests after the job build is successfully completed:
+  - all views
+  - all urls
+  - all models
+- Flake8 after the job build is successfully completed:
+  - ensure flake8 is OK
+- Package after the jobs flake8/tests are successfully completed:
+  - create image
+  - push it on DockerHUb
+- Deploy after the job deploy is successfully completed:
+  - pull image from docker
+  - tag it
+  - push it to heroku
+  - release app
+
+The file `.circleCI/config.yml` describe jobs to complete this flow.
+![preview](WorkflowCI.png)
+
+### Sentry
 ### Sources
 
 - tests : https://openclassrooms.com/fr/courses/7155841-testez-votre-projet-python/7414181-implementez-vos-tests-pour-framework-django-avec-pytest-django
