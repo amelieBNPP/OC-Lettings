@@ -28,8 +28,8 @@ def test_profile_index_view():
     response_content = response.content.decode()
     expected_content = [
         '<title>Profiles</title>',
-        '<a href="/profiles/student%20openclassroom/">',
-        '<a href="/profiles/mentor%20openclassroom/">',
+        'href="/profiles/student%20openclassroom/"',
+        'href="/profiles/mentor%20openclassroom/"',
         'mentor openclassroom',
         'student openclassroom',
     ]
@@ -57,11 +57,12 @@ def test_profile_view():
     response = client.get(path)
     response_content = response.content.decode()
     expected_content = [
-        '<title>student openclassroom</title>',
-        '<p>First name: student</p>',
-        '<p>Last name: openclassroom</p>',
-        '<p>Email: student@openclassroom.com</p>',
-        '<p>Favorite city: Paris</p>'
+        '<title>Profiles</title>',
+        '<h1>student openclassroom</h1>',
+        '<p class="lead">First name: student</p>',
+        '<p class="lead">Last name: openclassroom</p>',
+        '<p class="lead">Email: student@openclassroom.com</p>',
+        '<p class="lead">Favorite city: Paris</p>'
     ]
     for content in expected_content:
         assert content in response_content

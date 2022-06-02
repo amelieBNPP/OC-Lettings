@@ -37,8 +37,8 @@ def test_letting_index_view():
     response_content = response.content.decode()
     expected_content = [
         '<title>Lettings</title>',
-        '<a href="/lettings/1/">',
-        '<a href="/lettings/2/">',
+        '<a href="/lettings/1/"',
+        '<a href="/lettings/2/"',
         'miss student',
         'mr mentor',
     ]
@@ -68,11 +68,11 @@ def test_letting_view():
     response = client.get(path)
     response_content = response.content.decode()
     expected_content = [
-        '<title>miss student</title>',
+        '<title>Lettings</title>',
         '<h1>miss student</h1>',
-        '<p>13 rue openclassroom</p>',
-        '<p>Paris, France 75000</p>',
-        '<p>FRA</p>'
+        '<p class="lead">13 rue openclassroom</p>',
+        '<p class="lead">Paris, France 75000</p>',
+        '<p class="lead">FRA</p>'
     ]
     for content in expected_content:
         assert content in response_content

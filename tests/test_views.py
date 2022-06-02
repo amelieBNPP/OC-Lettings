@@ -13,8 +13,8 @@ def test_index_view():
     expected_content = [
         '<title>Holiday Homes</title>',
         '<h1>Welcome to Holiday Homes</h1>',
-        '<a href="/profiles/">Profiles</a>',
-        '<a href="/lettings/">Lettings</a>',
+        'href="/profiles/">Profiles</a>',
+        'href="/lettings/">Lettings</a>',
     ]
     for content in expected_content:
         assert content in response_content
