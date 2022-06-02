@@ -1,17 +1,52 @@
-<title>Lettings</title>
-<h1>Lettings</h1>
-{% if lettings_list %}
-    <ul>
-    {% for letting in lettings_list %}
-        <li>
-            <a href="{% url 'lettings:letting' letting_id=letting.id %}">
-                {{ letting.title }}
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No lettings are available.</p>
-{% endif %}
-<div><a href="{% url 'home' %}">Home</a></div>
-<div><a href="{% url 'profiles:index' %}">Profiles</a></div>
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Lettings</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand">Lettings</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'profiles:index' %}">Profiles</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page content-->
+        <div class="container">
+            <div class="text-center mt-5">
+                {% if lettings_list %}
+                <ul style="list-style: none;">
+                {% for letting in lettings_list %}
+                    <li>
+                        <p class="lead"><a href="{% url 'lettings:letting' letting_id=letting.id %}" style="color: black">
+                            {{ letting.title }}
+                        </a></p>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No lettings are available.</p>
+            {% endif %}
+            </div>
+        </div>  
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts.js' %}"></script>
+        
+    </body>
+</html>
