@@ -82,13 +82,22 @@ Django Administration will be used as a simple frontend :
 - `.quit` for exit sql
 ### Test
 
-Launch tests
+1. Launch tests
 To ensure new features do not add any regression in the code, run the tests with the following commands :
 ```bash
 cd /path/to/oc-lettings
 source venv/bin/activate
 pytest
 ```
+2. Coverage report
+To ensure the tests coverage of the api we can use :
+```bash
+coverage run -m pytest
+coverage report
+# An HTML report allow to see code lines covered by tests in htmlcov/index.html file
+coverage html
+```
+![preview ](Coverage_report.png)
 ### Linting
 
 ```bash
