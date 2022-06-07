@@ -194,6 +194,25 @@ The file `.circleCI/config.yml` describe jobs to complete this flow.
 ![preview](WorkflowCI.png)
 
 ### Sentry
+
+Sentry's Python SDK enables automatic reporting of errors and exceptions as well as identifies performance issues in your application.
+
+If you have a new project, this command will create de SENTRY_DSN environement variable and link sentry to Heroku : 
+```bash
+heroku addons:create sentry:f1
+```
+Otherwise, if project already existe you can just add the environement variable :
+```bash
+heroku config:set SENTRY_DSN='<SENTRY_DSN>'
+```
+
+You can test sentry with the navigation page `/sentry-debug`. The error will be propagate to sentry via Heroku.
+
+![preview](Sentry_error.png)
+
+
+
+
 ### Sources
 
 - tests : https://openclassrooms.com/fr/courses/7155841-testez-votre-projet-python/7414181-implementez-vos-tests-pour-framework-django-avec-pytest-django
