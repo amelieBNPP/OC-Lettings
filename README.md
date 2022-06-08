@@ -141,8 +141,8 @@ The website must look like:
 we assume that you have:
 
 - a free [Heroku account](https://signup.heroku.com/dc)
+- install [Heroku and CLI](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli)
 - Python version 3.10 installed locally
-- Postgres installed locally, if running the app locally.
 
 
 - `heroku container:login` first we logging to the docker registery
