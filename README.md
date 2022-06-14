@@ -212,7 +212,7 @@ heroku addons:create sentry:f1
 ```
 Otherwise, if project already existe you can just add the environement variable :
 ```bash
-heroku config:set SENTRY_DSN='<SENTRY_DSN>'
+heroku config:set SENTRY_DSN='<SENTRY_DSN>' -a <app_name>
 ```
 
 You can test sentry with the navigation page `/sentry-debug`. The error will be propagate to sentry via Heroku.
